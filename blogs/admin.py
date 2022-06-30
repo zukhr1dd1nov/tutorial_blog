@@ -1,14 +1,15 @@
 from django.contrib import admin
-from blogs.models import CategoryModel , BlogModel
+from blogs.models import BlogsCategoryModel, BlogsModel
+
 
 # Register your models here.
 
 
 
-@admin.register(CategoryModel)
-class CategoryModelAdmin(admin.ModelAdmin):
+@admin.register(BlogsCategoryModel)
+class BlogsCategoryModelAdmin(admin.ModelAdmin):
     list_display = ['id','name']
 
-@admin.register(BlogModel)
-class BLogModelAdmin(admin.ModelAdmin):
+@admin.register(BlogsModel)
+class BlogsModelAdmin(admin.ModelAdmin):
     list_display = ['id','title','created_at']

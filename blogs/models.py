@@ -1,17 +1,17 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 
-class CategoryModel(models.Model):
+class BlogsCategoryModel(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = 'категория'
-        verbose_name_plural = 'категории'
+        verbose_name = 'категория блогов'
+        verbose_name_plural = 'категории блогов'
 
-class BlogModel(models.Model):
+class BlogsModel(models.Model):
     category = models.ForeignKey(CategoryModel,on_delete=models.RESTRICT)
     title = models.CharField(max_length=255)
     body = RichTextUploadingField()
