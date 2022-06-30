@@ -12,7 +12,7 @@ class BlogsCategoryModel(models.Model):
         verbose_name_plural = 'категории блогов'
 
 class BlogsModel(models.Model):
-    category = models.ForeignKey(CategoryModel,on_delete=models.RESTRICT)
+    category = models.ForeignKey(BlogsCategoryModel,on_delete=models.RESTRICT)
     title = models.CharField(max_length=255)
     body = RichTextUploadingField()
     created_at = models.TimeField(auto_now_add=True)
