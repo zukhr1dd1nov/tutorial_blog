@@ -1,0 +1,115 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="slick">
+        <div class="box one-time">
+            <div class="item">
+                <img src="{% static 'main/img/sites/braunn.png' %}" alt="">
+                <h2>Braun Haircut Machine Site</h2>
+            </div>
+            <div class="item">
+                <img src="{% static 'main/img/sites/reebok.svg' %}" alt="">
+                <h2>Reebok Outfit and Clothes Shop</h2>
+            </div>
+            <div class="item">
+                <img src="{% static 'main/img/sites/seo.png' %}" alt="">
+                <h2>SEO Flow Marketing Site</h2>
+            </div>
+            <div class="item">
+                <img src="{% static 'main/img/sites/woman_new_collection.svg' %}" alt="">
+                <h2>Women and Kids Store</h2>
+            </div>
+        </div>
+    </section>
+    <section class="thworks">
+        <div class="thirth">
+            <h1>Other Works</h1>
+            {% for work in object_list %}
+                <div class="news">
+                    <div class="triangle">
+                        <img src="{{ work.work_image.url }}" alt="" class="work_image">
+                        <div>
+                            <a href="{% url 'work-detail' work.id %}">{{ work.title }}</a>
+                            <div class="date">
+                                <div class="boxx">
+                                    <p>{{ work.created_at|date:'Y' }}</p>
+                                </div>
+                                {% for category in work.categories.values %}
+                                    <h2>{{ category.name }}{% if not forloop.last %} | {% endif %}</h2>
+                                {% endfor %}
+                            </div>
+                            {{ work.body|truncatewords:30|safe }}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+            {% if page_obj.paginator.count > 10 %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for page in page_obj.paginator.page_range %}
+                            {% if page > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                                <li class="page-item">
+                                    <a class="page-link {% if page_obj.number == page %}active{% endif %}"
+                                       href="?page={{ page_obj.previous_page_number }}"
+                                       aria-label="Previous">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $('.one-time').slick({
+            dots: true,
+            infinite: true,
+            autoplay: true,
+            autoplaySpeed: 2580,
+            infinitive: true,
+            slidesToShow: 1,
+            slideToScroll: 1,
+            fade: true,
+            adaptiveHeight: true,
+            cssEase: 'linear',
+            responsive: [
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: false
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        dots: false
+                    }
+                }
+            ]
+        });
+    </script>
+{% endblock %}
