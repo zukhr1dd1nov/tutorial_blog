@@ -3,7 +3,6 @@
 
 {% block content %}
     <header>
-
         <section class="section_one">
             <div class="text_sec">
                 <h1>
@@ -25,88 +24,44 @@
     </header>
 
     <!--section end -->
-
     <section class="second">
         <div class="second_top">
             <h1>Recent posts</h1>
-            <a href="#">View all</a>
+            <a href="{% url 'blogs' %}">View all</a>
         </div>
         <div class="second_boxs">
+            {% for blog in object_list.blogs %}
             <div>
-                <h1>Making a design system from scratch</h1>
-                <h2>12 Feb 2020 &nbsp; &#10072; &nbsp; Design, Pattern</h2>
-                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat
-                    duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+                <h1>{{ blog.title }}</h1>
+                <h2> {{ blog.created_at|date:"d F Y" }}&nbsp; &#10072; &nbsp; {{ blog.category }}</h2>
+                {{ blog.body|safe|truncatewords:30 }}
             </div>
-            <div>
-                <h1>Creating pixel perfect icons in Figma</h1>
-                <h2>12 Feb 2020 &nbsp; &#10072; &nbsp; Figma, Icon Design</h2>
-                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat
-                    duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-            </div>
+            {% endfor %}
         </div>
     </section> <!--end section 2-->
     <section class="thirddh">
         <div class="thirth">
             <h1>Featured works</h1>
+            {% for work in object_list.works %}
             <div class="news">
                 <div class="triangle">
-                    <img src="{% static 'main/img/Rectangle 30.svg' %}" alt="">
+                    <img src="{{ work.work_image.url }}" alt="{{ work.title }}">
                     <div>
-                        <a href="#">Designing Dashboards</a>
+                        <a href="{% url 'work-detail' work.id %}">{{ work.title }}</a>
                         <div class="date">
                             <div class="boxx">
-                                <p>2020</p>
+                                <p>{{ work.created_at|date:'Y' }}</p>
                             </div>
-                            <h2>Dashboard</h2>
+                            {% for category in work.categories.values %}
+                                    <h2>{{ category.name }}{% if not forloop.last %} | {% endif %}</h2>
+                                {% endfor %}
                         </div>
-                        <p>
-                            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit <br> officia
-                            consequat duis enim velit mollit. Exercitation veniam consequat sunt <br> nostrud amet.
-                        </p>
+                        {{ work.body }}
                     </div>
                 </div>
             </div>
             <hr>
-            <div class="news">
-                <div class="triangle">
-                    <img src="{% static 'main/img/Rectangle 34.svg' %}" alt="">
-                    <div>
-                        <a href="#">Vibrant Portraits of 2020</a>
-                        <div class="date">
-                            <div class="boxx">
-                                <p>2018</p>
-                            </div>
-                            <h2>Illustration</h2>
-                        </div>
-                        <p>
-                            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit <br> officia
-                            consequat duis enim velit mollit. Exercitation veniam consequat sunt <br> nostrud amet.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="news">
-                <div class="triangle">
-                    <img src="{% static 'main/img/Rectangle 34.svg' %}" alt="">
-                    <div>
-                        <a href="#">36 Days of Malayalam types</a>
-                        <div class="date">
-                            <div class="boxx">
-                                <p>2018</p>
-                            </div>
-                            <h2>Typography</h2>
-                        </div>
-                        <p>
-                            Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit <br> officia
-                            consequat duis enim velit mollit. Exercitation veniam consequat sunt <br> nostrud amet.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <hr>
-        </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

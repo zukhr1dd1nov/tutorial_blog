@@ -7,7 +7,7 @@ class ContactsModelForm(forms.ModelForm):
 
     def clean_phone(self):
         data = str(self.cleaned_data.get('phone'))
-        if not data.isdecimal() and len(data)==12 :
+        if not data[1:].isdecimal() and len(data)==13 :
             raise ValidationError('Только цифры!')
         return data
 
